@@ -4,21 +4,30 @@ const http = require("http");
 const url = require("url");
 
 ///////////////////////////////////////////
+const data = fs.readFileSync("./dev-data/data.json", "utf-8");
+const dataObj = JSON.parse(data);
+
+///////////Read Each time of request///////////
 const server = http.createServer((req, res) => {
   // console.log(req);
   console.log(req.url);
   const pathName = req.url;
+
+  /////////////routes//////////////////////////
   if (pathName === "/" || pathName === "/overview") {
     res.end("this is overview");
-  } else if (req.url === "/product") {
+  }
+  /////////////////////////////////
+  else if (req.url === "/product") {
     res.end("this is product");
-  } else if (pathName === "/api") {
-    fs.readFile("./dev-data/data.json", "utf-8", (err, data) => {
-      const productData = JSON.parse(data);
-      res.writeHead(200, { "Content-type": "application/json" });
-      res.end(data);
-    });
-  } else {
+  }
+  ///////////////////////////////
+  else if (pathName === "/api") {
+    res.writeHead(200, { "Content-type": "application/json" });
+    res.end(data);
+  }
+  ///////////////////////////////
+  else {
     res.writeHead(404, {
       "Content-type": "text/html",
       "my-own-header": "hello-world",
