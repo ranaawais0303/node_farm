@@ -1,6 +1,7 @@
 ////////////Server/////////////
 const fs = require("fs");
 const http = require("http");
+const { default: slugify } = require("slugify");
 const url = require("url");
 const replaceTemplate = require("./modules/replaceTemplate");
 
@@ -20,6 +21,10 @@ const tempProduct = fs.readFileSync(
 
 const data = fs.readFileSync("./dev-data/data.json", "utf-8");
 const dataObj = JSON.parse(data);
+
+////////////////slugs/////////////////
+const slugs = dataObj.map((el) => slugify(el.productName, { lower: true }));
+console.log(slugs);
 
 ///////////Read Each time of request///////////
 const server = http.createServer((req, res) => {
